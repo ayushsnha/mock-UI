@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/",
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "target": "ES5",
+        "module": "ES2015",
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": true,
+    }
+}
