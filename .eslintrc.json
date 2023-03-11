@@ -74,6 +74,8 @@
         "semi": 0,
         "@typescript-eslint/semi": 2,
         "react/static-property-placement": 0,
+        "react/function-component-definition": 0,
+        "no-restricted-exports": 0,
         "max-len": [
             2,
             200

@@ -1,13 +1,11 @@
 import React from 'react';
+import { Header, Home } from './Screens';
 
-function App() {
-    return (
-        <div>
-            <h1 className="text-3xl font-bold underline">
-                React BoilerPlate
-            </h1>
-        </div>
-    );
-}
+const App = () => (
+    <>
+        <Header />
+        <Home />
+    </>
+);
 
 export default App;
