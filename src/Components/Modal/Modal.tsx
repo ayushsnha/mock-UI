@@ -69,6 +69,9 @@ const Modal = ({ onClose }:any) => {
                 next();
             } else {
                 handleSubmit();
+                setFormErrors({});
+                setIsSubmit(false);
+                onClose();
             }
         }
     }, [formErrors]);
