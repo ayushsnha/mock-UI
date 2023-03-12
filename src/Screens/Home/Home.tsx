@@ -1,25 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { getJobs } from '../../APIS';
-import Card from '../Card';
-
-export interface Job {
-    createdAt: string;
-    jobTitle: string;
-    companyName: string;
-    industry: string;
-    location: string;
-    jobType: string;
-    minExp: number;
-    maxExp: number;
-    minSalary: number;
-    maxSalary: number;
-    totalEmp: string;
-    applyType: string;
-    id: string;
-}
+import { Card, Modal } from '../../Components';
+import { Job } from '../../types';
 
 const Home = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [job, setJob] = useState([]);
     const { response, error, loading } = getJobs();
+
+    useEffect(() => {
+        if (response && response.data) {
+            setJob(response.data);
+        }
+    }, [loading]);
+
+    const handleOpenModal = () => {
+        setIsOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsOpen(false);
+    };
 
     const renderCard = (item:Job) => (
         <Card key={item.id} item={item} />
@@ -28,9 +30,14 @@ const Home = () => {
     return (
         <div className="px-8 py-8">
             <div className="flex align-middle justify-between">
-                <h3 className="text-xl font-medium">Jobs</h3>
-                <button type="button" className="bg-slate-50 px-4 py-2">Add Job</button>
+                <h3 className="text-xl text-dark font-medium">Jobs</h3>
+                <button type="button" className="px-4 py-2 text-light bg-primary rounded-md" onClick={handleOpenModal}>Add Job</button>
             </div>
+            {isOpen
+            && ReactDOM.createPortal(
+                <Modal onClose={handleCloseModal} />,
+                document.getElementById('overlay'),
+            )}
             <div>
                 {loading && (
                     <p>Loading...</p>
@@ -41,7 +48,7 @@ const Home = () => {
             </div>
             <div>
                 {
-                    !loading && response.data && response.data.map(renderCard)
+                    !loading && job && job.map(renderCard)
                 }
             </div>
         </div>

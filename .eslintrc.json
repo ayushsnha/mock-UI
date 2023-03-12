@@ -76,6 +76,7 @@
         "react/static-property-placement": 0,
         "react/function-component-definition": 0,
         "no-restricted-exports": 0,
+        "react/jsx-props-no-spreading": 0,
         "max-len": [
             2,
             200

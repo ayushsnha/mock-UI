@@ -1,5 +1,5 @@
 import React from 'react';
-import { Job } from '../Home/Home';
+import { Job } from '../../Screens/Home/Home';
 
 interface HomeProp {
     item: Job

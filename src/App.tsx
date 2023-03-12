@@ -1,5 +1,6 @@
 import React from 'react';
-import { Header, Home } from './Screens';
+import { Header } from './Components';
+import { Home } from './Screens';
 
 const App = () => (
     <>
