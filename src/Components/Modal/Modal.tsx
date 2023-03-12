@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import './modal.css';
 
 import { DetailsForm, JobForm } from '../Forms';
@@ -24,6 +24,8 @@ const INITIALDATA:Job = {
 
 const Modal = ({ onClose }:any) => {
     const [data, setData] = useState(INITIALDATA);
+    const [formErrors, setFormErrors] = useState({});
+    const [isSubmit, setIsSubmit] = useState(false);
 
     const {
         handleSubmit, error, loading,
@@ -36,17 +38,40 @@ const Modal = ({ onClose }:any) => {
         }));
     };
 
+    const validate = (values: Job) => {
+        const errors:Partial<Job> = {};
+
+        if (!values.companyName) {
+            errors.companyName = 'Company Name is required';
+        }
+        if (!values.jobTitle) {
+            errors.jobTitle = 'Job Title is required';
+        }
+        if (!values.industry) {
+            errors.industry = 'Industry is required';
+        }
+        return errors;
+    };
+
     const {
         currentStepIndex, step, next, back, isLastStep,
-    } = useMultistepForm([<JobForm {...data} updateFields={updateFields} />, <DetailsForm {...data} updateFields={updateFields} />]);
+    } = useMultistepForm([<JobForm {...data} formErrors={formErrors} updateFields={updateFields} />, <DetailsForm {...data} updateFields={updateFields} />]);
 
     const onSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!isLastStep) {
-            return next();
-        }
-        return handleSubmit();
+        setFormErrors(validate(data));
+        setIsSubmit(true);
     };
+
+    useEffect(() => {
+        if (Object.keys(formErrors).length === 0 && isSubmit) {
+            if (!isLastStep) {
+                next();
+            } else {
+                handleSubmit();
+            }
+        }
+    }, [formErrors]);
 
     return (
         <div className="modal-overlay">
