@@ -5,30 +5,15 @@ import { DetailsForm, JobForm } from '../Forms';
 import useMultistepForm from '../../Hooks/useMultistepForm';
 import { Job } from '../../types';
 import { postJob } from '../../APIS';
-
-const INITIALDATA:Job = {
-    createdAt: '',
-    jobTitle: '',
-    companyName: '',
-    industry: '',
-    location: '',
-    jobType: '',
-    minExp: 0,
-    maxExp: 0,
-    minSalary: 0,
-    maxSalary: 0,
-    totalEmp: '',
-    applyType: '',
-    id: '',
-};
+import INITIALVALUE from '../../constants/initialValue';
 
 const Modal = ({ onClose }:any) => {
-    const [data, setData] = useState(INITIALDATA);
+    const [data, setData] = useState(INITIALVALUE);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
 
     const {
-        handleSubmit, error, loading,
+        handleSubmit, error, loading, response,
     } = postJob(data);
 
     const updateFields = (fields: Partial<Job>) => {
@@ -75,6 +60,8 @@ const Modal = ({ onClose }:any) => {
             }
         }
     }, [formErrors]);
+
+    console.log(response);
 
     return (
         <div className="modal-overlay">
