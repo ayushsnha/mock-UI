@@ -24,15 +24,6 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
         await sendReq(axiosParams);
     };
 
-    const post = async (data: any) => {
-        setLoading(true);
-        await sendReq({
-            ...axiosParams,
-            method: 'POST',
-            data,
-        });
-    };
-
     useEffect(() => {
         if (axiosParams.method === 'GET') {
             get();
@@ -40,7 +31,7 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
     }, []);
 
     return {
-        response, error, loading, get, post,
+        response, error, loading, get,
     };
 };
 

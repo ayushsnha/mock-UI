@@ -35,7 +35,7 @@ const Home = () => {
             </div>
             {isOpen
             && ReactDOM.createPortal(
-                <Modal onClose={handleCloseModal} />,
+                <Modal onClose={handleCloseModal} setJob={setJob} />,
                 document.getElementById('overlay'),
             )}
             <div>

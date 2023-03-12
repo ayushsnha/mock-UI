@@ -1,20 +1,20 @@
 import React, { FormEvent, useState, useEffect } from 'react';
 import './modal.css';
 
+import { AxiosError } from 'axios';
+
 import { DetailsForm, JobForm } from '../Forms';
 import useMultistepForm from '../../Hooks/useMultistepForm';
 import { Job } from '../../types';
 import { postJob } from '../../APIS';
 import INITIALVALUE from '../../constants/initialValue';
 
-const Modal = ({ onClose }:any) => {
+const Modal = ({ onClose, setJob }:any) => {
     const [data, setData] = useState(INITIALVALUE);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
-
-    const {
-        handleSubmit, error, loading, response,
-    } = postJob(data);
+    const [error, setError] = useState<AxiosError>();
+    const [loading, setLoading] = useState(false);
 
     const updateFields = (fields: Partial<Job>) => {
         setData((prev) => ({
@@ -48,12 +48,19 @@ const Modal = ({ onClose }:any) => {
         setIsSubmit(true);
     };
 
+    const postData = async () => {
+        const resp = await postJob(data, setLoading, setError);
+        if (resp.data) {
+            setJob((prevData: Job[]) => [...prevData, resp.data]);
+        }
+    };
+
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             if (!isLastStep) {
                 next();
             } else {
-                handleSubmit();
+                postData();
                 setFormErrors({});
                 setIsSubmit(false);
                 onClose();
@@ -61,7 +68,7 @@ const Modal = ({ onClose }:any) => {
         }
     }, [formErrors]);
 
-    console.log(response);
+    // console.log(response?.data);
 
     return (
         <div className="modal-overlay">
