@@ -14,6 +14,7 @@ module.exports = {
             backgroundColor: {
                 primary: '#1597E4',
                 card: '#FFFFFF',
+                main: '#D8D8D8',
             },
             borderColor: {
                 primary: '#E6E6E6',

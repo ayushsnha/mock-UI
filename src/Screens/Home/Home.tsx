@@ -28,7 +28,7 @@ const Home = () => {
     );
 
     return (
-        <div className="px-8 py-8">
+        <div className="px-8 py-8 bg-main" style={{ minHeight: 'calc(100% - 60px)' }}>
             <div className="flex align-middle justify-between">
                 <h3 className="text-xl text-dark font-medium">Jobs</h3>
                 <button type="button" className="px-4 py-2 text-light bg-primary rounded-md" onClick={handleOpenModal}>Add Job</button>
@@ -46,7 +46,7 @@ const Home = () => {
                     <p>{error.message}</p>
                 )}
             </div>
-            <div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 my-6">
                 {
                     !loading && job && job.map(renderCard)
                 }
