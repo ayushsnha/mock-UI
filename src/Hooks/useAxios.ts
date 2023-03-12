@@ -6,9 +6,9 @@ axios.defaults.baseURL = 'https://640b3b0981d8a32198de31c8.mockapi.io/api';
 const useAxios = (axiosParams: AxiosRequestConfig) => {
     const [response, setResponse] = useState<AxiosResponse>();
     const [error, setError] = useState<AxiosError>();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    const fetchData = async (params: AxiosRequestConfig) => {
+    const sendReq = async (params: AxiosRequestConfig | null) => {
         try {
             const result = await axios.request(params);
             setResponse(result);
@@ -19,11 +19,29 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
         }
     };
 
+    const get = async () => {
+        setLoading(true);
+        await sendReq(axiosParams);
+    };
+
+    const post = async (data: any) => {
+        setLoading(true);
+        await sendReq({
+            ...axiosParams,
+            method: 'POST',
+            data,
+        });
+    };
+
     useEffect(() => {
-        fetchData(axiosParams);
+        if (axiosParams.method === 'GET') {
+            get();
+        }
     }, []);
 
-    return { response, error, loading };
+    return {
+        response, error, loading, get, post,
+    };
 };
 
 export default useAxios;
