@@ -16,13 +16,6 @@ const Modal = ({ onClose, setJob }:any) => {
     const [error, setError] = useState<AxiosError>();
     const [loading, setLoading] = useState(false);
 
-    const updateFields = (fields: Partial<Job>) => {
-        setData((prev) => ({
-            ...prev,
-            ...fields,
-        }));
-    };
-
     const validate = (values: Job) => {
         const errors:Partial<Job> = {};
 
@@ -38,9 +31,19 @@ const Modal = ({ onClose, setJob }:any) => {
         return errors;
     };
 
+    const updateFields = (fields: Partial<Job>) => {
+        setData((prev) => ({
+            ...prev,
+            ...fields,
+        }));
+    };
+
     const {
         currentStepIndex, step, next, back, isLastStep,
-    } = useMultistepForm([<JobForm {...data} formErrors={formErrors} updateFields={updateFields} />, <DetailsForm {...data} updateFields={updateFields} />]);
+    } = useMultistepForm([
+        <JobForm {...data} formErrors={formErrors} updateFields={updateFields} />,
+        <DetailsForm {...data} updateFields={updateFields} />,
+    ]);
 
     const onSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -61,25 +64,28 @@ const Modal = ({ onClose, setJob }:any) => {
                 next();
             } else {
                 postData();
-                setFormErrors({});
-                setIsSubmit(false);
                 onClose();
             }
         }
+        setIsSubmit(false);
     }, [formErrors]);
 
-    // console.log(response?.data);
+    useEffect(() => {
+        if (Object.keys(formErrors).length !== 0) {
+            setFormErrors(validate(data));
+        }
+    }, [data]);
 
     return (
         <div className="modal-overlay">
             <div className="modal-wrapper rounded-lg border border-secondary">
-                <div className="modal-header">
-                    <h2 className="text-xl font-bold">My Modal Title</h2>
-                    <div className="">
+                <div className="modal-header text-formHead">
+                    <h2 className="text-xl font-normal">Create a job</h2>
+                    <span className="text-m font-medium">
                         {`Step ${currentStepIndex + 1}` }
-                    </div>
+                    </span>
                     <button type="button" className="modal-close" onClick={onClose}>
-                        X
+                        x
                     </button>
                 </div>
                 <div className="modal-body">
@@ -90,9 +96,13 @@ const Modal = ({ onClose, setJob }:any) => {
                                 <button type="button" disabled={loading} onClick={back}>Back</button>
                             </div>
                         )}
-                        <div>
+                        <div className="flex justify-end mt-24">
 
-                            {loading ? <button disabled type="submit">Saving...</button> : <button type="submit">{isLastStep ? 'Save' : 'Next'}</button>}
+                            {
+                                loading
+                                    ? <button className="bg-primary px-4 py-2 rounded-md text-white" disabled type="submit">Saving...</button>
+                                    : <button className="bg-primary px-4 py-2 rounded-md text-white" type="submit">{isLastStep ? 'Save' : 'Next'}</button>
+                            }
                         </div>
                     </form>
                     {error && (
