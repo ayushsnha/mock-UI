@@ -72,7 +72,7 @@ const Modal = ({ onClose, setJob }:any) => {
 
     return (
         <div className="modal-overlay">
-            <div className="modal-wrapper rounded-lg border border-primary">
+            <div className="modal-wrapper rounded-lg border border-secondary">
                 <div className="modal-header">
                     <h2 className="text-xl font-bold">My Modal Title</h2>
                     <div className="">

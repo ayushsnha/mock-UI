@@ -46,7 +46,7 @@ const Home = () => {
                     <p>{error.message}</p>
                 )}
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 my-6">
+            <div className="grid grid-cols-1 gap-16 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 my-6">
                 {
                     !loading && job && job.map(renderCard)
                 }
