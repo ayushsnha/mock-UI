@@ -12,6 +12,7 @@ module.exports = {
                 placeholder: '#7A7A7A',
                 secondary: '#646464',
                 primary: '#1597E4',
+                formHead: '#182021',
             },
             backgroundColor: {
                 primary: '#1597E4',
