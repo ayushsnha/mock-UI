@@ -52,9 +52,12 @@ const Modal = ({ onClose, setJob }:any) => {
     };
 
     const postData = async () => {
-        const resp = await postJob(data, setLoading, setError);
+        setLoading(true);
+        const resp = await postJob(data, setError);
         if (resp.data) {
             setJob((prevData: Job[]) => [...prevData, resp.data]);
+            setLoading(false);
+            onClose();
         }
     };
 
@@ -64,7 +67,6 @@ const Modal = ({ onClose, setJob }:any) => {
                 next();
             } else {
                 postData();
-                onClose();
             }
         }
         setIsSubmit(false);
