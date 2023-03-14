@@ -1,19 +1,27 @@
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { getJobs } from '../../APIS';
+import { deleteJob, getJobs } from '../../APIS';
 import { Card, Modal } from '../../Components';
 import { Job } from '../../types';
 
 const Home = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [job, setJob] = useState([]);
-    const { response, error, loading } = getJobs();
+    const [error, setError] = useState<AxiosError>();
+    const [loading, setLoading] = useState(true);
+
+    const fetchJobs = async () => {
+        const response = await getJobs(setError);
+        if (response) {
+            setJob(response.data);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        if (response && response.data) {
-            setJob(response.data);
-        }
-    }, [loading]);
+        fetchJobs();
+    }, []);
 
     const handleOpenModal = () => {
         setIsOpen(true);
@@ -23,8 +31,15 @@ const Home = () => {
         setIsOpen(false);
     };
 
+    const deleteData = async (id: string) => {
+        const response = await deleteJob(id, setError);
+        if (response?.data?.id) {
+            setJob(job.filter((j) => j.id !== response.data.id));
+        }
+    };
+
     const renderCard = (item:Job) => (
-        <Card key={item.id} item={item} />
+        <Card key={item.id} deleteData={deleteData} item={item} />
     );
 
     return (
