@@ -51,7 +51,7 @@ const JobForm = ({
         <div className="flex">
             <TextInput
                 name="location"
-                label="Loaction"
+                label="Location"
                 placeholder="ex. Chennai"
                 value={location}
                 err={formErrors.location}
