@@ -39,7 +39,7 @@ const Modal = ({ onClose, setJob }:any) => {
     };
 
     const {
-        currentStepIndex, step, next, back, isLastStep,
+        currentStepIndex, step, next, isLastStep,
     } = useMultistepForm([
         <JobForm {...data} formErrors={formErrors} updateFields={updateFields} />,
         <DetailsForm {...data} updateFields={updateFields} />,
@@ -91,11 +91,6 @@ const Modal = ({ onClose, setJob }:any) => {
                 <div className="modal-body">
                     <form onSubmit={onSubmit}>
                         {step}
-                        { currentStepIndex > 0 && (
-                            <div>
-                                <button type="button" disabled={loading} onClick={back}>Back</button>
-                            </div>
-                        )}
                         <div className="flex justify-end mt-24">
 
                             {
