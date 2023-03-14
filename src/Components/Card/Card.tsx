@@ -18,7 +18,7 @@ const Home = ({ item }:HomeProp) => (
             <div className="my-6 flex flex-col">
                 <span className="text-m">Part-Time (9.00 am - 5.00 pm IST)</span>
                 <span className="text-m my-2">{`Experience (${item.minExp} - ${item.maxExp} years)`}</span>
-                <span className="text-m mb-2">{`INR (₹) ${item.minSalary} - ${item.maxSalary} / Month`}</span>
+                <span className="text-m mb-2">{`INR (₹) ${new Intl.NumberFormat().format(item.minSalary)} - ${new Intl.NumberFormat().format(item.maxSalary)} / Month`}</span>
                 <span className="text-m">{`${item.totalEmp || 0} employees`}</span>
             </div>
             <div className="">
